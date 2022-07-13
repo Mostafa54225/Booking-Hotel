@@ -1,53 +1,28 @@
 import React from 'react'
+import useFetch from '../../hooks/useFetch'
 import './featuredProperties.css'
 const FeaturedProperties = () => {
+    const { data, loading, error } = useFetch("/hotels?featured=true&&limit=4")
+
   return (
     <div className='fp'>
-        <div className="fpItem">
-            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/c4/4e/66/aparthotel-stare-miasto.jpg?w=900&h=-1&s=1" alt="" className="fpImg" />
-            <span className="fpName">Aparthotel Stare Miasto</span>
-            <span className="fpCity">Madrid</span>
-            <span className="fpPrice">Starting from $120</span>
+        {loading ? "Loadin..." :
+        <>
+        {data && data.map((hotel, i) => (
+            <div className="fpItem" key={i}>
+                <img src={hotel.photos[0]} alt="" className="fpImg" />
+                <span className="fpName">{hotel.name}</span>
+                <span className="fpCity">{hotel.city}</span>
+                <span className="fpPrice">Starting from ${hotel.cheapestPrice}</span>
 
-            <div className="fpRating">
-                <button>8.9</button>
-                <span>Excellent</span>
+                {hotel.rating && <div className="fpRating">
+                    <button>{hotel.rating}</button>
+                    <span>Excellent</span>
+                </div>}
             </div>
-        </div>
-        
-        <div className='fpItem'>
-            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/c4/4e/66/aparthotel-stare-miasto.jpg?w=900&h=-1&s=1" alt="" className="fpImg" />
-            <span className="fpName">Aparthotel Stare Miasto</span>
-            <span className="fpCity">Madrid</span>
-            <span className="fpPrice">Starting from $120</span>
-
-            <div className="fpRating">
-                <button>8.9</button>
-                <span>Excellent</span>
-            </div>
-        </div>
-        <div className='fpItem'>
-            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/c4/4e/66/aparthotel-stare-miasto.jpg?w=900&h=-1&s=1" alt="" className="fpImg" />
-            <span className="fpName">Aparthotel Stare Miasto</span>
-            <span className="fpCity">Madrid</span>
-            <span className="fpPrice">Starting from $120</span>
-
-            <div className="fpRating">
-                <button>8.9</button>
-                <span>Excellent</span>
-            </div>
-        </div>
-        <div className='fpItem'>
-            <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/c4/4e/66/aparthotel-stare-miasto.jpg?w=900&h=-1&s=1" alt="" className="fpImg" />
-            <span className="fpName">Aparthotel Stare Miasto</span>
-            <span className="fpCity">Madrid</span>
-            <span className="fpPrice">Starting from $120</span>
-
-            <div className="fpRating">
-                <button>8.9</button>
-                <span>Excellent</span>
-            </div>
-        </div>
+        ))}
+        </>
+        }
     </div>
     
   )
